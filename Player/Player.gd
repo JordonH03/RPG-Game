@@ -24,27 +24,28 @@ onready var hurtbox = $Hurtbox
 ## Player Actions
 enum {
 	MOVE,
-	ROLL,
+	#ROLL,
 	ATTACK
 }
 
 # Variables
 var state = MOVE # Default player action
 var velocity = Vector2.ZERO
-var roll_vector = Vector2.ZERO
+#var roll_vector = Vector2.ZERO
+var knockback_vector = Vector2.ZERO
 var stats = PlayerStats
 
 func _ready():
 	randomize() # randomizes world code
 	animationTree.active = true # Turns animation on
-	swordHitbox.knockback_vector = roll_vector
+	swordHitbox.knockback_vector = knockback_vector
 	stats.connect("no_health", self, "queue_free")
 	
 func _physics_process(delta):
 	# Checks for current animation state
 	match state:
 		MOVE: move_state(delta)
-		ROLL: roll_state(delta)
+		#ROLL: roll_state(delta)
 		ATTACK: attack_state(delta)
 		
 	# Test rotation
@@ -59,7 +60,7 @@ func move_state(delta):
 	input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
 	input_vector = input_vector.normalized() # reduces the velocity to the smallest unit...1
 	if input_vector != Vector2.ZERO:
-		roll_vector = input_vector
+		#roll_vector = input_vector
 		swordHitbox.knockback_vector = input_vector
 		# Sets the different animations based on key input
 		animationTree.set("parameters/Idle/blend_position", input_vector)
@@ -79,8 +80,8 @@ func move_state(delta):
 	# Checks for ATTACK action and switches animation
 	if Input.is_action_just_pressed("attack"):
 		state = ATTACK
-	if Input.is_action_just_pressed("roll"):
-		state = ROLL
+	#if Input.is_action_just_pressed("roll"):
+	#	state = ROLL
 
 # Attack function
 func attack_state(_delta):
@@ -88,10 +89,10 @@ func attack_state(_delta):
 	animationState.travel("Attack")
 	
 # Roll function
-func roll_state(_delta):
-	velocity = roll_vector * ROLL_SPEED
-	animationState.travel("Roll")
-	move()
+#func roll_state(_delta):
+#	velocity = roll_vector * ROLL_SPEED
+#	animationState.travel("Roll")
+#	move()
 	
 # Switches back to move state
 func roll_animation_finished():
