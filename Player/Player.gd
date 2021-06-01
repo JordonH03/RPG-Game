@@ -31,6 +31,7 @@ enum {
 # Variables
 var state = MOVE # Default player action
 var velocity = Vector2.ZERO
+var knockback_vector = Vector2.ZERO
 var stats = PlayerStats
 
 func _ready():

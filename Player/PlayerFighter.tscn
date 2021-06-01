@@ -12,16 +12,16 @@ height = 12.0
 
 [node name="Sprite" parent="." index="1"]
 texture = ExtResource( 2 )
-frame = 31
 
 [node name="AnimationTree" parent="." index="5"]
 parameters/playback = SubResource( 1 )
 
 [node name="HitboxPivot" parent="." index="6"]
-rotation = 4.71239
+rotation = 1.5708
 
 [node name="Hitbox" parent="HitboxPivot" index="0"]
 position = Vector2( 15, 0 )
+damage = 2
 
 [node name="CollisionShape2D" parent="HitboxPivot/Hitbox" index="0"]
 shape = SubResource( 2 )

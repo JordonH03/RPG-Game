@@ -1,0 +1,121 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Player/Fighter.png" type="Texture" id=1]
+[ext_resource path="res://Player/Wizard.png" type="Texture" id=2]
+[ext_resource path="res://Player/Cleric.png" type="Texture" id=3]
+[ext_resource path="res://TitleScreen.gd" type="Script" id=4]
+
+[node name="TitleScreen" type="Node2D"]
+script = ExtResource( 4 )
+
+[node name="Title" type="Label" parent="."]
+margin_left = 64.0
+margin_right = 256.0
+margin_bottom = 64.0
+text = "Wizards & Wyverns
+Select your class"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Fighter" type="Sprite" parent="."]
+position = Vector2( 96, 78.5349 )
+texture = ExtResource( 1 )
+hframes = 40
+frame = 18
+
+[node name="Wizard" type="Sprite" parent="."]
+position = Vector2( 160, 80 )
+texture = ExtResource( 2 )
+hframes = 40
+frame = 18
+
+[node name="Cleric" type="Sprite" parent="."]
+position = Vector2( 224, 80 )
+texture = ExtResource( 3 )
+hframes = 40
+frame = 18
+
+[node name="FighterStats" type="Label" parent="."]
+margin_left = 64.0
+margin_top = 95.8036
+margin_right = 192.0
+margin_bottom = 177.804
+rect_scale = Vector2( 0.5, 0.5 )
+text = "Health: 10
+Damage: 3
+Weapon: Sword
+Special: Double Damage"
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="WizardStats" type="Label" parent="."]
+margin_left = 128.0
+margin_top = 96.0
+margin_right = 256.0
+margin_bottom = 178.0
+rect_scale = Vector2( 0.5, 0.5 )
+text = "Health: 4
+Damage: 3
+Weapon: Fireball
+Special: Explosive Fireball"
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ClericStats" type="Label" parent="."]
+margin_left = 192.0
+margin_top = 96.0
+margin_right = 320.0
+margin_bottom = 178.0
+rect_scale = Vector2( 0.5, 0.5 )
+text = "Health: 6
+Damage: 2
+Weapon: Holy Aura
+Special: Cure Wounds"
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SelectFighter" type="Button" parent="."]
+margin_left = 66.2392
+margin_top = 152.109
+margin_right = 122.239
+margin_bottom = 172.109
+rect_pivot_offset = Vector2( 32, 8 )
+text = "Fighter"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SelectWizard" type="Button" parent="."]
+margin_left = 131.478
+margin_top = 152.0
+margin_right = 187.478
+margin_bottom = 172.0
+rect_pivot_offset = Vector2( 32, 8 )
+text = "Wizard"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SelectCleric" type="Button" parent="."]
+margin_left = 200.435
+margin_top = 151.783
+margin_right = 248.435
+margin_bottom = 171.783
+rect_pivot_offset = Vector2( 32, 8 )
+text = "Cleric"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="pressed" from="SelectFighter" to="." method="_on_SelectFighter_pressed"]
+[connection signal="pressed" from="SelectWizard" to="." method="_on_SelectWizard_pressed"]
+[connection signal="pressed" from="SelectCleric" to="." method="_on_SelectCleric_pressed"]

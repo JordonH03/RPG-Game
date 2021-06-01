@@ -34,6 +34,7 @@ var velocity = Vector2.ZERO
 var knockback = Vector2.ZERO # Initializes knockback
 
 func _ready():
+	# Sets enemies to either sit still or wander around on load
 	state = pick_random_state([IDLE, WANDER])
 
 func _physics_process(delta):
@@ -50,7 +51,8 @@ func _physics_process(delta):
 				randomize_wander_state()
 				
 		WANDER:
-			seek_player()
+			seek_player() # While wandering keep detecting for player
+			# Move to a random point within range
 			if wanderController.get_time_left() == 0:
 				randomize_wander_state()
 				
@@ -61,6 +63,7 @@ func _physics_process(delta):
 				
 		CHASE:
 			var player = playerDetectionArea.player
+			# While enemy can detect player, move towards it
 			if player != null:
 				accelerate_towards_point(player.global_position, delta)
 			else:
@@ -75,10 +78,13 @@ func seek_player():
 		state = CHASE
 		
 func pick_random_state(state_list):
+	# Randomize the order of given states
 	state_list.shuffle()
+	# Return/Choose the first state
 	return state_list.pop_front()
 	
 func accelerate_towards_point(point, delta):
+	# Move
 	var direction =  global_position.direction_to(point)
 	velocity = velocity.move_toward(direction * MAX_SPEED, ACCELERATION * delta)
 	sprite.flip_h = velocity.x < 0
