@@ -5,14 +5,15 @@ onready var heartUIFull = $HeartUIFull
 onready var heartUIEmpty = $HeartUIEmpty
 
 # Variables
-var hearts = 4 setget set_hearts
-var max_hearts = 4 setget set_max_hearts
+var hearts : int setget set_hearts
+var max_hearts : int setget set_max_hearts
 
 func _ready():
 	self.max_hearts = PlayerStats.max_health
 	self.hearts = PlayerStats.health
+	# Connects signals from PlayerStats to HealthUI.gd
 	PlayerStats.connect("health_changed", self, "set_hearts")
-	PlayerStats.connect("max_health_changed", self, "set_max_ hearts")
+	PlayerStats.connect("max_health_changed", self, "set_max_hearts")
 
 func set_hearts(value):
 	hearts = clamp(value, 0, max_hearts)

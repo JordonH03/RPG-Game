@@ -2,13 +2,13 @@ extends Node
 
 # Export
 ## Health
-export(int) var max_health = 1 setget set_max_health
+export(int) var max_health = 10 setget set_max_health
 
 # Variables
 var health = max_health setget set_health
 	
 # Signals
-signal no_health # Creates a signal for 0 health
+signal no_health() # Creates a signal for 0 health
 signal health_changed(value)
 signal max_health_changed(value)
 
@@ -25,3 +25,4 @@ func set_max_health(value):
 	max_health = value
 	self.health = min(health, max_health)
 	emit_signal("max_health_changed", max_health)
+	print("max health")

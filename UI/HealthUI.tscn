@@ -5,8 +5,7 @@
 [ext_resource path="res://UI/HeartUIEmpty.png" type="Texture" id=3]
 
 [node name="HealthUI" type="Control"]
-margin_left = -0.0735779
-margin_right = 39.9264
+margin_right = 40.0
 margin_bottom = 40.0
 script = ExtResource( 1 )
 __meta__ = {
