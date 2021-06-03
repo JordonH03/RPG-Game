@@ -20,6 +20,5 @@ func _on_SpecialTimer_timeout():
 	cooldown = true
 	specialCooldown.start(20)
 
-
 func _on_SpecialCooldown_timeout():
 	cooldown = false
