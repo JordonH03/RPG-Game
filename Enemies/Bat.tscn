@@ -98,6 +98,7 @@ collision_layer = 16
 script = ExtResource( 4 )
 
 [node name="PlayerDetectionArea" parent="." instance=ExtResource( 6 )]
+visible = false
 position = Vector2( 0, -16 )
 
 [node name="CollisionShape2D" parent="PlayerDetectionArea" index="0"]
@@ -113,7 +114,7 @@ max_health = 6
 material = SubResource( 2 )
 frames = SubResource( 8 )
 animation = "Fly"
-frame = 3
+frame = 4
 playing = true
 offset = Vector2( 0, -12 )
 
@@ -124,11 +125,12 @@ texture = ExtResource( 2 )
 visible = false
 shape = SubResource( 9 )
 
-[node name="Hurtbox" parent="." instance=ExtResource( 3 )]
-visible = false
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="Hurtbox" parent="StaticBody2D" instance=ExtResource( 3 )]
 collision_layer = 8
 
-[node name="CollisionShape2D" parent="Hurtbox" index="0"]
+[node name="CollisionShape2D" parent="StaticBody2D/Hurtbox" index="0"]
 position = Vector2( 0, -13 )
 shape = SubResource( 10 )
 
@@ -156,11 +158,11 @@ anims/Start = SubResource( 13 )
 anims/Stop = SubResource( 14 )
 
 [connection signal="no_health" from="Stats" to="." method="_on_Stats_no_health"]
-[connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
-[connection signal="invincibility_ended" from="Hurtbox" to="." method="_on_Hurtbox_invincibility_ended"]
-[connection signal="invincibility_started" from="Hurtbox" to="." method="_on_Hurtbox_invincibility_started"]
+[connection signal="area_entered" from="StaticBody2D/Hurtbox" to="." method="_on_Hurtbox_area_entered"]
+[connection signal="invincibility_ended" from="StaticBody2D/Hurtbox" to="." method="_on_Hurtbox_invincibility_ended"]
+[connection signal="invincibility_started" from="StaticBody2D/Hurtbox" to="." method="_on_Hurtbox_invincibility_started"]
 
 [editable path="PlayerDetectionArea"]
-[editable path="Hurtbox"]
+[editable path="StaticBody2D/Hurtbox"]
 [editable path="Hitbox"]
 [editable path="SoftCollision"]

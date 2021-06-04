@@ -18,6 +18,7 @@ onready var animationState = animationTree.get("parameters/playback")
 onready var blinkAnimationPlayer = $BlinkAnimationPlayer
 ## Collision nodes
 onready var fireballSpawn = $HitboxPivot/Hitbox
+onready var fireballSpawnRotation = $HitboxPivot
 onready var hurtbox = $Hurtbox
 
 # Enums
@@ -70,25 +71,40 @@ func move_state(delta):
 	# Checks for ATTACK action and switches animation
 	if Input.is_action_just_pressed("attack"):
 		state = ATTACK
+		
+	# Return input_vector for fireball travel_vector
+	return input_vector
 
 # Attack function
 func attack_state(delta):
 	velocity = Vector2.ZERO
 	animationState.travel("Attack")
+
+func attack_animation_finished():
+	state = MOVE
+
+func spawn_fireball(x, y):
 	fireball = FIREBALL.instance()
 	var spawn = get_tree().current_scene
 	spawn.add_child(fireball)
 	fireball.position = fireballSpawn.global_position
 	fireball.rotation = fireballSpawn.global_rotation
-	fireball.travel_vector.x = fireballSpawn.position.x
-	fireball.travel_vector.y = fireballSpawn.position.y
-	fireball.travel_vector = fireball.travel_vector.normalized()
 	fireball.knockback_vector = input_vector
-	fireball.velocity = fireball.velocity.move_toward(fireball.travel_vector * MAX_SPEED, ACCELERATION * delta)
-	fireball.velocity = move_and_collide(fireball.velocity)
-
-func attack_animation_finished():
-	state = MOVE
+	fireball.travel_vector.x = x
+	fireball.travel_vector.y = y
+	print(fireball.travel_vector)
+	
+func fireball_down():
+	spawn_fireball(0, 1)
+	
+func fireball_left():
+	spawn_fireball(-1, 0)
+	
+func fireball_right():
+	spawn_fireball(1, 0)
+	
+func fireball_up():
+	spawn_fireball(0, -1)
 
 # General movement function
 func move():

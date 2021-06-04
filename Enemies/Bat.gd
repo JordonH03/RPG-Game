@@ -13,7 +13,7 @@ export var WANDER_RANGE = 4
 onready var stats = $Stats # Acesses Stats node properties
 ## Collision/Detection
 onready var playerDetectionArea = $PlayerDetectionArea
-onready var hurtbox = $Hurtbox
+onready var hurtbox = $StaticBody2D/Hurtbox
 onready var softCollision = $SoftCollision
 onready var wanderController = $WanderController
 ## Animation

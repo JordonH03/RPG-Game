@@ -9,8 +9,7 @@
 script = ExtResource( 4 )
 
 [node name="Title" type="Label" parent="."]
-margin_left = 64.0
-margin_right = 256.0
+margin_right = 480.0
 margin_bottom = 64.0
 text = "Wizards & Wyverns
 Select your class"
@@ -21,28 +20,28 @@ __meta__ = {
 }
 
 [node name="Fighter" type="Sprite" parent="."]
-position = Vector2( 96, 78.5349 )
+position = Vector2( 128, 96 )
 texture = ExtResource( 1 )
 hframes = 40
 frame = 18
 
 [node name="Wizard" type="Sprite" parent="."]
-position = Vector2( 160, 80 )
+position = Vector2( 240, 96 )
 texture = ExtResource( 2 )
 hframes = 40
 frame = 18
 
 [node name="Cleric" type="Sprite" parent="."]
-position = Vector2( 224, 80 )
+position = Vector2( 352, 96 )
 texture = ExtResource( 3 )
 hframes = 40
 frame = 18
 
 [node name="FighterStats" type="Label" parent="."]
-margin_left = 64.0
-margin_top = 95.8036
-margin_right = 192.0
-margin_bottom = 177.804
+margin_left = 96.0
+margin_top = 128.0
+margin_right = 256.0
+margin_bottom = 210.0
 rect_scale = Vector2( 0.5, 0.5 )
 text = "Health: 10
 Damage: 3
@@ -54,10 +53,10 @@ __meta__ = {
 }
 
 [node name="WizardStats" type="Label" parent="."]
-margin_left = 128.0
-margin_top = 96.0
-margin_right = 256.0
-margin_bottom = 178.0
+margin_left = 208.0
+margin_top = 128.0
+margin_right = 384.0
+margin_bottom = 210.0
 rect_scale = Vector2( 0.5, 0.5 )
 text = "Health: 4
 Damage: 3
@@ -69,10 +68,10 @@ __meta__ = {
 }
 
 [node name="ClericStats" type="Label" parent="."]
-margin_left = 192.0
-margin_top = 96.0
-margin_right = 320.0
-margin_bottom = 178.0
+margin_left = 320.0
+margin_top = 128.0
+margin_right = 464.0
+margin_bottom = 210.0
 rect_scale = Vector2( 0.5, 0.5 )
 text = "Health: 6
 Damage: 2
@@ -84,10 +83,10 @@ __meta__ = {
 }
 
 [node name="SelectFighter" type="Button" parent="."]
-margin_left = 66.2392
-margin_top = 152.109
-margin_right = 122.239
-margin_bottom = 172.109
+margin_left = 96.0
+margin_top = 192.0
+margin_right = 160.0
+margin_bottom = 224.0
 rect_pivot_offset = Vector2( 32, 8 )
 text = "Fighter"
 __meta__ = {
@@ -95,10 +94,10 @@ __meta__ = {
 }
 
 [node name="SelectWizard" type="Button" parent="."]
-margin_left = 131.478
-margin_top = 152.0
-margin_right = 187.478
-margin_bottom = 172.0
+margin_left = 208.0
+margin_top = 192.0
+margin_right = 272.0
+margin_bottom = 224.0
 rect_pivot_offset = Vector2( 32, 8 )
 text = "Wizard"
 __meta__ = {
@@ -106,10 +105,10 @@ __meta__ = {
 }
 
 [node name="SelectCleric" type="Button" parent="."]
-margin_left = 200.435
-margin_top = 151.783
-margin_right = 248.435
-margin_bottom = 171.783
+margin_left = 320.0
+margin_top = 192.0
+margin_right = 384.0
+margin_bottom = 220.0
 rect_pivot_offset = Vector2( 32, 8 )
 text = "Cleric"
 __meta__ = {
