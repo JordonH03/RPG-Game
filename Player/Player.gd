@@ -18,8 +18,11 @@ onready var animationTree = $AnimationTree
 onready var animationState = animationTree.get("parameters/playback")
 onready var blinkAnimationPlayer = $BlinkAnimationPlayer
 ## Collision nodes
-onready var weaponHitbox = $HitboxPivot/Hitbox
+onready var hitbox = $HitboxPivot/Hitbox
 onready var hurtbox = $Hurtbox
+## Special ability nodes
+onready var specialTimer = $SpecialTimer
+onready var specialCooldown = $SpecialCooldown
 
 # Enums
 ## Player Actions
@@ -31,13 +34,18 @@ enum {
 # Variables
 var state = MOVE # Default player action
 var velocity = Vector2.ZERO
+var input_vector = Vector2.ZERO
 var knockback_vector = Vector2.ZERO
 var stats = PlayerStats
+## Special Ability variables
+var special = false
+var cooldown = false
+
 
 func _ready():
 	randomize() # randomizes world code
 	animationTree.active = true # Turns animation on
-	weaponHitbox.knockback_vector = velocity
+	hitbox.knockback_vector = velocity
 	stats.connect("no_health", self, "queue_free")
 	
 func _physics_process(delta):
@@ -48,14 +56,13 @@ func _physics_process(delta):
 
 # Movement function
 func move_state(delta):
-	var input_vector = Vector2.ZERO
 	# Calculates the direction of movement based on key input
 	# Allows for multi-directional movement
 	input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
 	input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
 	input_vector = input_vector.normalized() # reduces the velocity to the smallest unit...1
 	if input_vector != Vector2.ZERO:
-		weaponHitbox.knockback_vector = input_vector
+		hitbox.knockback_vector = input_vector
 		# Sets the different animations based on key input
 		animationTree.set("parameters/Idle/blend_position", input_vector)
 		animationTree.set("parameters/Run/blend_position", input_vector)
@@ -72,6 +79,9 @@ func move_state(delta):
 	# Checks for ATTACK action and switches animation
 	if Input.is_action_just_pressed("attack"):
 		state = ATTACK
+		
+	# Return input_vector for travel_vector
+	return input_vector
 
 # Attack function
 func attack_state(_delta):
@@ -94,9 +104,9 @@ func _on_Hurtbox_area_entered(area):
 	var playerHurtSound = PlayerHurtSound.instance()
 	get_tree().current_scene.add_child(playerHurtSound)
 
-
 func _on_Hurtbox_invincibility_started():
 	blinkAnimationPlayer.play("Start")
 
 func _on_Hurtbox_invincibility_ended():
 	blinkAnimationPlayer.play("Stop")
+	

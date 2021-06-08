@@ -2,7 +2,9 @@ extends KinematicBody2D
 
 # Preload
 const PlayerHurtSound = preload("res://Player/PlayerHurtSound.tscn")
+## Fireball preloads
 const FIREBALL = preload("res://Effects/Fireball.tscn")
+const BlueFireball = preload("res://Effects/BlueFireball.tscn")
 
 # Export
 ## Movement variables
@@ -17,9 +19,11 @@ onready var animationTree = $AnimationTree
 onready var animationState = animationTree.get("parameters/playback")
 onready var blinkAnimationPlayer = $BlinkAnimationPlayer
 ## Collision nodes
-onready var fireballSpawn = $HitboxPivot/Hitbox
-onready var fireballSpawnRotation = $HitboxPivot
+onready var hitbox = $HitboxPivot/Hitbox
 onready var hurtbox = $Hurtbox
+## Special ability nodes
+onready var specialTimer = $SpecialTimer
+onready var specialCooldown = $SpecialCooldown
 
 # Enums
 ## Player Actions
@@ -29,16 +33,21 @@ enum {
 }
 
 # Variables
-var stats = PlayerStats
 var state = MOVE # Default player action
 var velocity = Vector2.ZERO
 var input_vector = Vector2.ZERO
+var knockback_vector = Vector2.ZERO
+var stats = PlayerStats
+## Special Ability variables
+var special = false
+var cooldown = false
+## Fireball variables
 var fireball = FIREBALL.instance()
 
 func _ready():
 	randomize() # randomizes world code
 	animationTree.active = true # Turns animation on
-	fireball.knockback_vector = velocity
+	hitbox.knockback_vector = velocity
 	stats.connect("no_health", self, "queue_free")
 	
 func _physics_process(delta):
@@ -46,6 +55,9 @@ func _physics_process(delta):
 	match state:
 		MOVE: move_state(delta)
 		ATTACK: attack_state(delta)
+	if Input.is_action_just_pressed("special") and special == false and cooldown == false:
+		special = true
+		specialTimer.start()
 
 # Movement function
 func move_state(delta):
@@ -55,6 +67,7 @@ func move_state(delta):
 	input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
 	input_vector = input_vector.normalized() # reduces the velocity to the smallest unit...1
 	if input_vector != Vector2.ZERO:
+		hitbox.knockback_vector = input_vector
 		# Sets the different animations based on key input
 		animationTree.set("parameters/Idle/blend_position", input_vector)
 		animationTree.set("parameters/Run/blend_position", input_vector)
@@ -72,39 +85,16 @@ func move_state(delta):
 	if Input.is_action_just_pressed("attack"):
 		state = ATTACK
 		
-	# Return input_vector for fireball travel_vector
+	# Return input_vector for travel_vector
 	return input_vector
 
 # Attack function
-func attack_state(delta):
+func attack_state(_delta):
 	velocity = Vector2.ZERO
 	animationState.travel("Attack")
 
 func attack_animation_finished():
 	state = MOVE
-
-func spawn_fireball(x, y):
-	fireball = FIREBALL.instance()
-	var spawn = get_tree().current_scene
-	spawn.add_child(fireball)
-	fireball.position = fireballSpawn.global_position
-	fireball.rotation = fireballSpawn.global_rotation
-	fireball.knockback_vector = input_vector
-	fireball.travel_vector.x = x
-	fireball.travel_vector.y = y
-	print(fireball.travel_vector)
-	
-func fireball_down():
-	spawn_fireball(0, 1)
-	
-func fireball_left():
-	spawn_fireball(-1, 0)
-	
-func fireball_right():
-	spawn_fireball(1, 0)
-	
-func fireball_up():
-	spawn_fireball(0, -1)
 
 # General movement function
 func move():
@@ -119,9 +109,46 @@ func _on_Hurtbox_area_entered(area):
 	var playerHurtSound = PlayerHurtSound.instance()
 	get_tree().current_scene.add_child(playerHurtSound)
 
-
 func _on_Hurtbox_invincibility_started():
 	blinkAnimationPlayer.play("Start")
 
 func _on_Hurtbox_invincibility_ended():
 	blinkAnimationPlayer.play("Stop")
+	
+func _on_SpecialTimer_timeout():
+	special = false
+	cooldown = true
+	specialCooldown.start()
+
+func _on_SpecialCooldown_timeout():
+	cooldown = false
+
+	
+# Wizard specific functions
+func spawn_fireball(x, y):
+	if special == true:
+		fireball = BlueFireball.instance()
+	else:
+		fireball = FIREBALL.instance()
+	var spawn = get_tree().current_scene
+	spawn.add_child(fireball)
+	fireball.position = hitbox.global_position
+	fireball.rotation = hitbox.global_rotation
+	fireball.knockback_vector = input_vector
+	fireball.travel_vector.x = x
+	fireball.travel_vector.y = y
+	print(fireball.travel_vector)
+	
+# Functions called in animation player
+func fireball_down():
+	spawn_fireball(0, 1)
+	
+func fireball_left():
+	spawn_fireball(-1, 0)
+	
+func fireball_right():
+	spawn_fireball(1, 0)
+	
+func fireball_up():
+	spawn_fireball(0, -1)
+

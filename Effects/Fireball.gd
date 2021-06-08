@@ -16,6 +16,7 @@ func _ready():
 	
 func _physics_process(delta):
 	travel_vector = travel_vector.normalized()
+	knockback_vector = travel_vector
 	travel_vector = travel_vector.move_toward(travel_vector * MAX_SPEED, ACCELERATION * delta)
 	self.translate(travel_vector)
 
