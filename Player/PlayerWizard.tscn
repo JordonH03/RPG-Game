@@ -54,7 +54,7 @@ shape = SubResource( 4 )
 [node name="Hurtbox" parent="." index="8"]
 visible = false
 
-[connection signal="timeout" from="SpecialTimer" to="." method="_on_SpecialTimer_timeout"]
+[connection signal="timeout" from="SpecialDuration" to="." method="_on_SpecialDuration_timeout"]
 [connection signal="timeout" from="SpecialCooldown" to="." method="_on_SpecialCooldown_timeout"]
 
 [editable path="HitboxPivot/Hitbox"]

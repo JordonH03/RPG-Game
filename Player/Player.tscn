@@ -667,7 +667,7 @@ volume_db = -15.0
 
 [node name="CameraLink" type="RemoteTransform2D" parent="."]
 
-[node name="SpecialTimer" type="Timer" parent="."]
+[node name="SpecialDuration" type="Timer" parent="."]
 wait_time = 10.0
 
 [node name="SpecialCooldown" type="Timer" parent="."]

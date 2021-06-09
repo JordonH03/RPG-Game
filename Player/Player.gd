@@ -21,7 +21,7 @@ onready var blinkAnimationPlayer = $BlinkAnimationPlayer
 onready var hitbox = $HitboxPivot/Hitbox
 onready var hurtbox = $Hurtbox
 ## Special ability nodes
-onready var specialTimer = $SpecialTimer
+onready var specialDuration = $SpecialDuration
 onready var specialCooldown = $SpecialCooldown
 
 # Enums

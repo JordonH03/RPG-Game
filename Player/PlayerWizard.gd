@@ -22,7 +22,7 @@ onready var blinkAnimationPlayer = $BlinkAnimationPlayer
 onready var hitbox = $HitboxPivot/Hitbox
 onready var hurtbox = $Hurtbox
 ## Special ability nodes
-onready var specialTimer = $SpecialTimer
+onready var specialDuration = $SpecialDuration
 onready var specialCooldown = $SpecialCooldown
 
 # Enums
@@ -57,7 +57,7 @@ func _physics_process(delta):
 		ATTACK: attack_state(delta)
 	if Input.is_action_just_pressed("special") and special == false and cooldown == false:
 		special = true
-		specialTimer.start()
+		specialDuration.start()
 
 # Movement function
 func move_state(delta):
@@ -114,8 +114,9 @@ func _on_Hurtbox_invincibility_started():
 
 func _on_Hurtbox_invincibility_ended():
 	blinkAnimationPlayer.play("Stop")
-	
-func _on_SpecialTimer_timeout():
+
+
+func _on_SpecialDuration_timeout():
 	special = false
 	cooldown = true
 	specialCooldown.start()
