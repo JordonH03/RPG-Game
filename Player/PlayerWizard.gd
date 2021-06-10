@@ -14,6 +14,7 @@ export var FRICTION = 500
 
 # Onready
 ## Animation nodes
+onready var sprite = $Sprite
 onready var animationPlayer = $AnimationPlayer
 onready var animationTree = $AnimationTree
 onready var animationState = animationTree.get("parameters/playback")
@@ -49,6 +50,8 @@ func _ready():
 	animationTree.active = true # Turns animation on
 	hitbox.knockback_vector = velocity
 	stats.connect("no_health", self, "queue_free")
+	# Sets width of special outline to 0
+	sprite.get_material().set_shader_param("size", 0.0)
 	
 func _physics_process(delta):
 	# Checks for current animation state
@@ -57,6 +60,8 @@ func _physics_process(delta):
 		ATTACK: attack_state(delta)
 	if Input.is_action_just_pressed("special") and special == false and cooldown == false:
 		special = true
+		# Sets the outline to a visible width
+		sprite.get_material().set_shader_param("size", 0.5)
 		specialDuration.start()
 
 # Movement function
@@ -120,6 +125,7 @@ func _on_SpecialDuration_timeout():
 	special = false
 	cooldown = true
 	specialCooldown.start()
+	sprite.get_material().set_shader_param("size", 0.0) # Turn off outline
 
 func _on_SpecialCooldown_timeout():
 	cooldown = false
