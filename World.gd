@@ -1,10 +1,10 @@
 extends Node2D
 
 # Preload player class scenes
-const playerFighter = preload("res://Player/PlayerFighter.tscn")
-const playerWizard = preload("res://Player/PlayerWizard.tscn")
-const playerCleric = preload("res://Player/PlayerCleric.tscn")
-const healthUI = preload("res://UI/HealthUI.tscn")
+const PLAYER_FIGHTER = preload("res://Player/PlayerFighter.tscn")
+const PLAYER_WIZARD = preload("res://Player/PlayerWizard.tscn")
+const PLAYER_CLERIC = preload("res://Player/PlayerCleric.tscn")
+const HEALTH_UI = preload("res://UI/HealthUI.tscn")
 
 # Onready
 onready var worldYsort = $YSort
@@ -12,18 +12,18 @@ onready var uiLayer = $CanvasLayer
 
 func _ready():
 	# Create a new instance of player's health
-	var HealthUI = healthUI.instance()
-	uiLayer.add_child(HealthUI)
-	HealthUI.margin_left = 8
-	HealthUI.margin_top = 8
-	HealthUI.margin_right = 40
-	HealthUI.margin_bottom = 40
+	var healthUI = HEALTH_UI.instance()
+	uiLayer.add_child(healthUI)
+	healthUI.margin_left = 8
+	healthUI.margin_top = 8
+	healthUI.margin_right = 40
+	healthUI.margin_bottom = 40
 	if TitleScreen.playerClass == "fighter":
-		spawn_player(playerFighter, 10)
+		spawn_player(PLAYER_FIGHTER, 10)
 	elif TitleScreen.playerClass == "wizard":
-		spawn_player(playerWizard, 4)
+		spawn_player(PLAYER_WIZARD, 4)
 	elif TitleScreen.playerClass == "cleric":
-		spawn_player(playerCleric, 7)
+		spawn_player(PLAYER_CLERIC, 7)
 	
 func spawn_player(scene, max_health):
 	var player = scene.instance()               # Save instance of player

@@ -3,7 +3,7 @@ extends KinematicBody2D
 class_name Player
 
 # Preload
-const PlayerHurtSound = preload("res://Player/PlayerHurtSound.tscn")
+const PLAYER_HURT_SOUND = preload("res://Player/PlayerHurtSound.tscn")
 
 # Export
 ## Movement variables
@@ -24,6 +24,7 @@ onready var hurtbox = $Hurtbox
 ## Special ability nodes
 onready var specialDuration = $SpecialDuration
 onready var specialCooldown = $SpecialCooldown
+onready var audioStreamPlayer = $AudioStreamPlayer
 
 # Enums
 ## Player Actions
@@ -36,8 +37,7 @@ enum {
 # Variables
 var state = MOVE # Default player action
 var velocity = Vector2.ZERO
-var input_vector = Vector2.ZERO
-var roll_vector = Vector2.ZERO
+var rollVector = Vector2.ZERO
 var stats = PlayerStats
 ## Special Ability variables
 var special = false
@@ -47,7 +47,7 @@ var cooldown = false
 func _ready():
 	randomize() # randomizes world code
 	animationTree.active = true # Turns animation on
-	hitbox.knockback_vector = roll_vector
+	hitbox.knockbackVector = rollVector
 	stats.connect("no_health", self, "queue_free")
 	
 func _physics_process(delta):
@@ -59,21 +59,21 @@ func _physics_process(delta):
 
 # Movement function
 func move_state(delta):
+	var inputVector = Vector2.ZERO
 	# Calculates the direction of movement based on key input
 	# Allows for multi-directional movement
-	input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
-	input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
-	input_vector = input_vector.normalized() # reduces the velocity to the smallest unit...1
-	if input_vector != Vector2.ZERO:
-		roll_vector = input_vector
-		hitbox.knockback_vector = input_vector
+	inputVector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
+	inputVector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
+	inputVector = inputVector.normalized() # reduces the velocity to the smallest unit...1
+	if inputVector != Vector2.ZERO:
+		rollVector = inputVector
+		hitbox.knockbackVector = inputVector
 		# Sets the different animations based on key input
-		animationTree.set("parameters/Idle/blend_position", input_vector)
-		animationTree.set("parameters/Run/blend_position", input_vector)
-		animationTree.set("parameters/Attack/blend_position", input_vector)
-		animationTree.set("parameters/Roll/blend_position", input_vector)
+		var states = ["Idle", "Run", "Attack", "Roll"]
+		for state in states:
+			animationTree.set("parameters/" + state + "/blend_position", inputVector)
 		animationState.travel("Run")
-		velocity = velocity.move_toward(input_vector * MAX_SPEED, ACCELERATION * delta)
+		velocity = velocity.move_toward(inputVector * MAX_SPEED, ACCELERATION * delta)
 	else:
 		animationState.travel("Idle")
 		velocity = velocity.move_toward(Vector2.ZERO, FRICTION * delta) # moves player to 0,0 by FRICTION val
@@ -87,9 +87,6 @@ func move_state(delta):
 		
 	if Input.is_action_just_pressed("roll"):
 		state = ROLL
-		
-	# Return input_vector for travel_vector
-	return input_vector
 
 # Attack function
 func attack_state(_delta):
@@ -100,7 +97,7 @@ func attack_animation_finished():
 	state = MOVE
 	
 func roll_state(_delta):
-	velocity = roll_vector * ROLL_SPEED
+	velocity = rollVector * ROLL_SPEED
 	animationState.travel("Roll")
 	move()
 	
@@ -110,6 +107,7 @@ func roll_animation_finished():
 # General movement function
 func move():
 	velocity = move_and_slide(velocity)
+	
 
 # Signal Functions
 
@@ -117,7 +115,7 @@ func _on_Hurtbox_area_entered(area):
 	stats.health -= area.damage
 	hurtbox.start_invincibility(1)
 	hurtbox.create_hit_effect()
-	var playerHurtSound = PlayerHurtSound.instance()
+	var playerHurtSound = PLAYER_HURT_SOUND.instance()
 	get_tree().current_scene.add_child(playerHurtSound)
 
 func _on_Hurtbox_invincibility_started():
@@ -125,4 +123,4 @@ func _on_Hurtbox_invincibility_started():
 
 func _on_Hurtbox_invincibility_ended():
 	blinkAnimationPlayer.play("Stop")
-	
+

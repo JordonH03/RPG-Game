@@ -1,4 +1,4 @@
-[gd_scene load_steps=60 format=2]
+[gd_scene load_steps=58 format=2]
 
 [ext_resource path="res://Collision Boxes/Hitbox.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Player/Player.gd" type="Script" id=2]
@@ -761,10 +761,6 @@ tracks/0/keys = {
 [sub_resource type="Animation" id=21]
 length = 0.1
 
-[sub_resource type="Animation" id=22]
-
-[sub_resource type="Animation" id=23]
-
 [sub_resource type="AnimationNodeAnimation" id=24]
 animation = "AttackLeft"
 
@@ -935,10 +931,6 @@ anims/RunUp = SubResource( 19 )
 anims/Start = SubResource( 20 )
 anims/Stop = SubResource( 21 )
 
-[node name="SpecialAnimationPlayer" type="AnimationPlayer" parent="."]
-anims/Start = SubResource( 22 )
-anims/Stop = SubResource( 23 )
-
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource( 50 )
 anim_player = NodePath("../AnimationPlayer")
@@ -981,6 +973,7 @@ wait_time = 10.0
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
 [connection signal="invincibility_ended" from="Hurtbox" to="." method="_on_Hurtbox_invincibility_ended"]
 [connection signal="invincibility_started" from="Hurtbox" to="." method="_on_Hurtbox_invincibility_started"]
+[connection signal="timeout" from="SpecialCooldown" to="." method="_on_SpecialCooldown_timeout"]
 
 [editable path="HitboxPivot/Hitbox"]
 [editable path="Hurtbox"]

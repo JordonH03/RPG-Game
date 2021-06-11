@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
 # Preloads
-const EnemyDeathEffect = preload("res://Effects/EnemyDeathEffect.tscn") # Preloads animation scene for later use
+const ENEMY_DEATH_EFFECT = preload("res://Effects/EnemyDeathEffect.tscn") # Preloads animation scene for later use
 
 # Exports
 export var ACCELERATION = 300
@@ -38,7 +38,7 @@ func _ready():
 	state = pick_random_state([IDLE, WANDER])
 
 func _physics_process(delta):
-	# Knocks back the enemy on a hit
+	# The enemy is knocked back when hit
 	knockback = knockback.move_toward(Vector2.ZERO, FRICTION * delta)
 	knockback = move_and_slide(knockback)
 	
@@ -77,11 +77,11 @@ func seek_player():
 	if playerDetectionArea.can_see_player():
 		state = CHASE
 		
-func pick_random_state(state_list):
+func pick_random_state(stateList):
 	# Randomize the order of given states
-	state_list.shuffle()
+	stateList.shuffle()
 	# Return/Choose the first state
-	return state_list.pop_front()
+	return stateList.pop_front()
 	
 func accelerate_towards_point(point, delta):
 	# Move
@@ -97,13 +97,13 @@ func randomize_wander_state():
 
 func _on_Hurtbox_area_entered(area):
 	stats.health -= area.damage
-	knockback = area.knockback_vector * 120
+	knockback = area.knockbackVector * 120
 	hurtbox.create_hit_effect()
 	hurtbox.start_invincibility(0.5)
 
 func _on_Stats_no_health():
 	queue_free()
-	var enemyDeathEffect = EnemyDeathEffect.instance()  # Create instance/copy of effect scene
+	var enemyDeathEffect = ENEMY_DEATH_EFFECT.instance()  # Create instance/copy of effect scene
 	get_parent().add_child(enemyDeathEffect)            # Add effect to parent (bat)
 	enemyDeathEffect.global_position = global_position  # Set position of instance to parent
 

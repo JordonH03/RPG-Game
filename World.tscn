@@ -1086,7 +1086,7 @@ position = Vector2( -16, 80 )
 [node name="Node2D" type="Node2D" parent="YSort"]
 
 [node name="Bat" parent="YSort/Node2D" instance=ExtResource( 6 )]
-position = Vector2( 176, 24 )
+position = Vector2( -96.0735, -70.385 )
 
 [node name="Bat2" parent="YSort/Node2D" instance=ExtResource( 6 )]
 position = Vector2( 264, 72 )
@@ -1095,46 +1095,22 @@ position = Vector2( 264, 72 )
 position = Vector2( 24, 104 )
 
 [node name="Bat4" parent="YSort/Node2D" instance=ExtResource( 6 )]
-position = Vector2( 249.147, 202.437 )
+position = Vector2( 218.195, 271.22 )
 
 [node name="Bat5" parent="YSort/Node2D" instance=ExtResource( 6 )]
-position = Vector2( 276.69, 215.217 )
+position = Vector2( 162.817, -93.1584 )
 
 [node name="Bat6" parent="YSort/Node2D" instance=ExtResource( 6 )]
-position = Vector2( 248.045, 241.879 )
+position = Vector2( 261.802, 252.579 )
 
 [node name="Bat7" parent="YSort/Node2D" instance=ExtResource( 6 )]
-position = Vector2( 470.154, 122.671 )
+position = Vector2( -125.198, 249.537 )
 
 [node name="Bat8" parent="YSort/Node2D" instance=ExtResource( 6 )]
-position = Vector2( 385.101, 45.5502 )
+position = Vector2( 458.087, -4.12614 )
 
 [node name="Bat9" parent="YSort/Node2D" instance=ExtResource( 6 )]
 position = Vector2( 439.48, 258.537 )
-
-[node name="Bat10" parent="YSort/Node2D" instance=ExtResource( 6 )]
-position = Vector2( 42.3963, 216.053 )
-
-[node name="Bat11" parent="YSort/Node2D" instance=ExtResource( 6 )]
-position = Vector2( 72.1351, 259.953 )
-
-[node name="Bat12" parent="YSort/Node2D" instance=ExtResource( 6 )]
-position = Vector2( 97.4835, -87.021 )
-
-[node name="Bat13" parent="YSort/Node2D" instance=ExtResource( 6 )]
-position = Vector2( 366.599, -98.1585 )
-
-[node name="Bat14" parent="YSort/Node2D" instance=ExtResource( 6 )]
-position = Vector2( -130.393, -65.8963 )
-
-[node name="Bat15" parent="YSort/Node2D" instance=ExtResource( 6 )]
-position = Vector2( -71.2457, -5.2125 )
-
-[node name="Bat16" parent="YSort/Node2D" instance=ExtResource( 6 )]
-position = Vector2( -141.531, 77.7476 )
-
-[node name="Bat17" parent="YSort/Node2D" instance=ExtResource( 6 )]
-position = Vector2( -110.421, 225.616 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

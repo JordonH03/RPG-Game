@@ -4,11 +4,8 @@ extends Hitbox
 onready var area = $Area
 onready var explosionTimer = $ExplosionTimer
 
-# Variables
-var knockback_vector = Vector2.ZERO
-
 func _ready():
-	damage = 6
+	damage = 3
 	explosionTimer.start()
 
 

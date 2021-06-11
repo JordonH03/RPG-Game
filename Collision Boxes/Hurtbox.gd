@@ -1,7 +1,7 @@
 extends Area2D
 
 # Preload
-const HitEffect = preload("res://Effects/HitEffect.tscn")
+const HIT_EFFECT = preload("res://Effects/HitEffect.tscn")
 
 # Onready
 onready var timer = $Timer
@@ -24,7 +24,7 @@ func set_invincible(value):
 		emit_signal("invincibility_ended")
 
 func create_hit_effect():
-	var effect = HitEffect.instance()         # Create instance of effect scene
+	var effect = HIT_EFFECT.instance()         # Create instance of effect scene
 	var main = get_tree().current_scene       # Get access to current scene
 	main.add_child(effect)                    # Add effect to current scene
 	effect.global_position = global_position  # Set effect position
