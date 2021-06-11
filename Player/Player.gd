@@ -9,6 +9,7 @@ const PlayerHurtSound = preload("res://Player/PlayerHurtSound.tscn")
 ## Movement variables
 export var MAX_SPEED = 120
 export var ACCELERATION = 500
+export var ROLL_SPEED = 125
 export var FRICTION = 500
 
 # Onready
@@ -28,14 +29,15 @@ onready var specialCooldown = $SpecialCooldown
 ## Player Actions
 enum {
 	MOVE,
-	ATTACK
+	ATTACK,
+	ROLL
 }
 
 # Variables
 var state = MOVE # Default player action
 var velocity = Vector2.ZERO
 var input_vector = Vector2.ZERO
-var knockback_vector = Vector2.ZERO
+var roll_vector = Vector2.ZERO
 var stats = PlayerStats
 ## Special Ability variables
 var special = false
@@ -45,7 +47,7 @@ var cooldown = false
 func _ready():
 	randomize() # randomizes world code
 	animationTree.active = true # Turns animation on
-	hitbox.knockback_vector = velocity
+	hitbox.knockback_vector = roll_vector
 	stats.connect("no_health", self, "queue_free")
 	
 func _physics_process(delta):
@@ -53,6 +55,7 @@ func _physics_process(delta):
 	match state:
 		MOVE: move_state(delta)
 		ATTACK: attack_state(delta)
+		ROLL: roll_state(delta)
 
 # Movement function
 func move_state(delta):
@@ -62,11 +65,13 @@ func move_state(delta):
 	input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
 	input_vector = input_vector.normalized() # reduces the velocity to the smallest unit...1
 	if input_vector != Vector2.ZERO:
+		roll_vector = input_vector
 		hitbox.knockback_vector = input_vector
 		# Sets the different animations based on key input
 		animationTree.set("parameters/Idle/blend_position", input_vector)
 		animationTree.set("parameters/Run/blend_position", input_vector)
 		animationTree.set("parameters/Attack/blend_position", input_vector)
+		animationTree.set("parameters/Roll/blend_position", input_vector)
 		animationState.travel("Run")
 		velocity = velocity.move_toward(input_vector * MAX_SPEED, ACCELERATION * delta)
 	else:
@@ -80,6 +85,9 @@ func move_state(delta):
 	if Input.is_action_just_pressed("attack"):
 		state = ATTACK
 		
+	if Input.is_action_just_pressed("roll"):
+		state = ROLL
+		
 	# Return input_vector for travel_vector
 	return input_vector
 
@@ -89,6 +97,14 @@ func attack_state(_delta):
 	animationState.travel("Attack")
 
 func attack_animation_finished():
+	state = MOVE
+	
+func roll_state(_delta):
+	velocity = roll_vector * ROLL_SPEED
+	animationState.travel("Roll")
+	move()
+	
+func roll_animation_finished():
 	state = MOVE
 
 # General movement function

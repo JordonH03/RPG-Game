@@ -22,19 +22,19 @@ __meta__ = {
 [node name="Fighter" type="Sprite" parent="."]
 position = Vector2( 128, 96 )
 texture = ExtResource( 1 )
-hframes = 40
+hframes = 60
 frame = 18
 
 [node name="Wizard" type="Sprite" parent="."]
 position = Vector2( 240, 96 )
 texture = ExtResource( 2 )
-hframes = 40
+hframes = 60
 frame = 18
 
 [node name="Cleric" type="Sprite" parent="."]
 position = Vector2( 352, 96 )
 texture = ExtResource( 3 )
-hframes = 40
+hframes = 60
 frame = 18
 
 [node name="FighterStats" type="Label" parent="."]
