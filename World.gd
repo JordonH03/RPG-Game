@@ -10,6 +10,7 @@ const HEALTH_UI = preload("res://UI/HealthUI.tscn")
 onready var worldYsort = $YSort
 onready var uiLayer = $CanvasLayer
 
+
 func _ready():
 	# Create a new instance of player's health
 	var healthUI = HEALTH_UI.instance()
@@ -28,7 +29,7 @@ func _ready():
 func spawn_player(scene, max_health):
 	var player = scene.instance()               # Save instance of player
 	worldYsort.add_child(player)                # Add player to world
-	player.global_position = Vector2(160, 80)   # Set player position
+	player.global_position = Vector2.ZERO   # Set player position
 	var cameraLink = player.get_node("CameraLink")
 	cameraLink.set_remote_node("/root/World/Camera2D")
 	PlayerStats.set_max_health(max_health)

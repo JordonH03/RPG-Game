@@ -69,9 +69,9 @@ func move_state(delta):
 		rollVector = inputVector
 		hitbox.knockbackVector = inputVector
 		# Sets the different animations based on key input
-		var states = ["Idle", "Run", "Attack", "Roll"]
-		for state in states:
-			animationTree.set("parameters/" + state + "/blend_position", inputVector)
+		var animations = ["Idle", "Run", "Attack", "Roll"]
+		for animation in animations:
+			animationTree.set("parameters/" + animation + "/blend_position", inputVector)
 		animationState.travel("Run")
 		velocity = velocity.move_toward(inputVector * MAX_SPEED, ACCELERATION * delta)
 	else:

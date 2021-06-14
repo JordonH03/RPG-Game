@@ -64,7 +64,6 @@ position = Vector2( -0.0768779, -3.87904 )
 wait_time = 20.0
 
 [connection signal="timeout" from="SpecialDuration" to="." method="_on_SpecialDuration_timeout"]
-[connection signal="timeout" from="SpecialCooldown" to="." method="_on_SpecialCooldown_timeout"]
 
 [editable path="HitboxPivot/Hitbox"]
 [editable path="Hurtbox"]

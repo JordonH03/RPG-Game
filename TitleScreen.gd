@@ -4,19 +4,17 @@ extends Node2D
 const WORLD = preload("res://World.tscn")
 
 # Variables
-var playerClass = null
+var playerClass = ""
 
 func _on_SelectFighter_pressed():
-	get_tree().change_scene_to(WORLD)
-	TitleScreen.playerClass = "fighter"
-	
+	spawn_class("fighter")
 
 func _on_SelectWizard_pressed():
-	get_tree().change_scene_to(WORLD)
-	TitleScreen.playerClass = "wizard"
-
+	spawn_class("wizard")
 
 func _on_SelectCleric_pressed():
-	get_tree().change_scene_to(WORLD)
-	TitleScreen.playerClass = "cleric"
+	spawn_class("cleric")
 	
+func spawn_class(playerClass):
+	get_tree().change_scene_to(WORLD)
+	TitleScreen.playerClass = playerClass

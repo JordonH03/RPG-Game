@@ -5,8 +5,6 @@ extends Hitbox
 export var MAX_SPEED = 500
 export var ACCELERATION = 200
 
-# Variables
-var travelVector = Vector2.ZERO
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -21,12 +19,13 @@ func _physics_process(delta):
 
 
 func _on_VisibilityNotifier2D_screen_exited():
-	queue_free()
-	travelVector = Vector2.ZERO
-	position = global_position
+	fireball_die()
 
 
-func _on_Fireball_body_entered(body):
+func _on_Fireball_body_entered(_body):
+	fireball_die()
+	
+func fireball_die():
 	queue_free()
 	travelVector = Vector2.ZERO
 	position = global_position

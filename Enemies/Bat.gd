@@ -31,7 +31,7 @@ enum {
 # Variables
 var state = IDLE
 var velocity = Vector2.ZERO
-var knockback = Vector2.ZERO # Initializes knockback
+var knockback = Vector2.ZERO
 
 func _ready():
 	# Sets enemies to either sit still or wander around on load
@@ -98,6 +98,7 @@ func randomize_wander_state():
 func _on_Hurtbox_area_entered(area):
 	stats.health -= area.damage
 	knockback = area.knockbackVector * 120
+	print(knockback)
 	hurtbox.create_hit_effect()
 	hurtbox.start_invincibility(0.5)
 

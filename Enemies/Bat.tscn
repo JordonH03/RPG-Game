@@ -54,18 +54,17 @@ radius = 3.62252
 radius = 6.0
 height = 6.0
 
-[sub_resource type="CapsuleShape2D" id=15]
+[sub_resource type="CapsuleShape2D" id=11]
 radius = 6.0
 height = 6.0
 
-[sub_resource type="CircleShape2D" id=11]
+[sub_resource type="CircleShape2D" id=12]
 radius = 5.15006
 
-[sub_resource type="CircleShape2D" id=12]
+[sub_resource type="CircleShape2D" id=13]
 radius = 5.08698
 
-[sub_resource type="Animation" id=13]
-resource_name = "Start"
+[sub_resource type="Animation" id=14]
 length = 0.2
 loop = true
 tracks/0/type = "value"
@@ -81,8 +80,7 @@ tracks/0/keys = {
 "values": [ true, false ]
 }
 
-[sub_resource type="Animation" id=14]
-resource_name = "Stop"
+[sub_resource type="Animation" id=15]
 length = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("BodySprite:material:shader_param/active")
@@ -102,7 +100,6 @@ collision_layer = 16
 script = ExtResource( 4 )
 
 [node name="PlayerDetectionArea" parent="." instance=ExtResource( 6 )]
-visible = false
 position = Vector2( 0, -16 )
 
 [node name="CollisionShape2D" parent="PlayerDetectionArea" index="0"]
@@ -118,7 +115,7 @@ max_health = 6
 material = SubResource( 2 )
 frames = SubResource( 8 )
 animation = "Fly"
-frame = 4
+frame = 2
 playing = true
 offset = Vector2( 0, -12 )
 
@@ -140,7 +137,7 @@ shape = SubResource( 10 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2( 0, -13 )
-shape = SubResource( 15 )
+shape = SubResource( 11 )
 
 [node name="Hitbox" parent="." instance=ExtResource( 7 )]
 visible = false
@@ -149,7 +146,7 @@ collision_mask = 4
 [node name="CollisionShape2D" parent="Hitbox" index="0"]
 position = Vector2( 0, -13 )
 rotation = 0.140127
-shape = SubResource( 11 )
+shape = SubResource( 12 )
 
 [node name="SoftCollision" parent="." instance=ExtResource( 8 )]
 visible = false
@@ -157,13 +154,13 @@ collision_layer = 32
 collision_mask = 32
 
 [node name="CollisionShape2D" parent="SoftCollision" index="0"]
-shape = SubResource( 12 )
+shape = SubResource( 13 )
 
 [node name="WanderController" parent="." instance=ExtResource( 9 )]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/Start = SubResource( 13 )
-anims/Stop = SubResource( 14 )
+anims/Start = SubResource( 14 )
+anims/Stop = SubResource( 15 )
 
 [connection signal="no_health" from="Stats" to="." method="_on_Stats_no_health"]
 [connection signal="area_entered" from="StaticBody2D/Hurtbox" to="." method="_on_Hurtbox_area_entered"]

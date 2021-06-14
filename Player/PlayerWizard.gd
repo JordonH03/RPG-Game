@@ -26,6 +26,7 @@ onready var hurtbox = $Hurtbox
 ## Special ability nodes
 onready var specialDuration = $SpecialDuration
 onready var specialCooldown = $SpecialCooldown
+onready var specialAnimationPlayer = $SpecialAnimationPlayer
 
 # Enums
 ## Player Actions
@@ -79,9 +80,9 @@ func move_state(delta):
 		rollVector = inputVector
 		hitbox.knockbackVector = inputVector
 		# Sets the different animations based on key input
-		var states = ["Idle", "Run", "Attack", "Roll"]
-		for state in states:
-			animationTree.set("parameters/" + state + "/blend_position", inputVector)
+		var animations = ["Idle", "Run", "Attack", "Roll"]
+		for animation in animations:
+			animationTree.set("parameters/" + animation + "/blend_position", inputVector)
 		animationState.travel("Run")
 		velocity = velocity.move_toward(inputVector * MAX_SPEED, ACCELERATION * delta)
 	else:
@@ -116,6 +117,9 @@ func roll_animation_finished():
 # General movement function
 func move():
 	velocity = move_and_slide(velocity)
+	
+func cooldown_finished():
+	specialAnimationPlayer.stop()
 
 # Signal Functions
 
@@ -136,11 +140,16 @@ func _on_Hurtbox_invincibility_ended():
 func _on_SpecialDuration_timeout():
 	special = false
 	cooldown = true
+	specialAnimationPlayer.play("SpecialEnd")
+	specialDuration.stop()
 	specialCooldown.start()
-	sprite.get_material().set_shader_param("size", 0.0) # Turn off outline
+	print("special end")
 
 func _on_SpecialCooldown_timeout():
 	cooldown = false
+	specialAnimationPlayer.play("CooldownEnd")
+	specialCooldown.stop()
+	print("cooldown end")
 
 	
 # Wizard specific functions
@@ -156,7 +165,7 @@ func spawn_fireball(x, y):
 	fireball.knockbackVector = rollVector
 	fireball.travelVector.x = x
 	fireball.travelVector.y = y
-	print(fireball.travelVector)
+	#print(fireball.travelVector)
 	
 # Functions called in animation player
 func fireball_down():
